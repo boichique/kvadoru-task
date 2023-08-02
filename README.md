@@ -22,7 +22,7 @@
 - `make run-service`
 
 Остановка сервиса и удаление клиента:
-- `make run-service`
+- `make stop-service`
 
 Форматирование, проверка линтерами и прогон тестов:
 - `make before-push`
