@@ -1,0 +1,39 @@
+version: '3' # Docker Compose version
+
+services:
+  db: # Database service
+    image: mysql:latest # Using the latest MySQL image
+    restart: always # The service will always restart if it stops
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASS} # MySQL root user password
+      MYSQL_DATABASE: ${DB_NAME} # MySQL database name
+    ports:
+      - "3306:3306" # Mapping the service's port 3306 to the host's port 3306
+    healthcheck:
+        test: ["CMD", "mysqladmin", "ping", "-h", "localhost"] # Command to check the health of the service
+        interval: 15s # Interval between health checks
+        timeout: 5s # Time after which the health check will be considered as failed if no response
+        retries: 5 # Number of retries before considering the service as unhealthy
+
+  migrator: # Migrator service
+    build: migrations # Build context for the service
+    command: ["up"] # Command to run after the service is up
+    environment: 
+      GOOSE_DRIVER: mysql # Goose driver for MySQL
+      GOOSE_DBSTRING: ${DB_USER}:${DB_PASS}@tcp(db:3306)/${DB_NAME}?parseTime=true # Connection string to the database
+    depends_on:
+      db:
+        condition: service_healthy # The service will start only if the Database service is healthy
+
+  server: # Server service
+    build: . # Build context for the service
+    restart: always # The service will always restart if it stops
+    ports:
+      - "9000:9000" # Mapping the service's port 9000 to the host's port 9000
+    environment:
+      DB_URL: ${DB_USER}:${DB_PASS}@tcp(db:3306)/${DB_NAME}?parseTime=true # Connection string to the database
+      PORT: ${PORT} # Port on which the service will run
+      LOCAL: ${LOCAL} # Local environment variable
+      LOG_LEVEL: ${LOG_LEVEL} # Log level
+    depends_on:
+      - migrator # The service will start only after migrations have finished

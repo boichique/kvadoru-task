@@ -1,0 +1,14 @@
+.env
+.vscode
+
+.git
+.github
+
+migrations
+tests
+client
+images
+
+Makefile
+**/Dockerfile
+**/docker-compose.yaml
