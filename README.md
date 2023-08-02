@@ -40,7 +40,9 @@
 Также можно использовать Postman:
 
 Поиск авторов по книге
+![GetAuthorsByBook](https://github.com/boichique/kvadoru_task/assets/87061629/ab064ff4-e2e7-4aaa-b0cc-e8c447c63214)
 
 Поиск книг по автору
+![GetBooksByAuthor](https://github.com/boichique/kvadoru_task/assets/87061629/10cac055-d051-45e3-8a0c-9b07d0f15489)
 
 
