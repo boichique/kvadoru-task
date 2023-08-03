@@ -6,6 +6,9 @@ stop-service:
 	rm ./client/cli &&\
 	docker compose down
 
+grpc-gui:
+	grpcui -plaintext localhost:9000
+
 before-push:
 	go mod tidy &&\
 	gofumpt -l -w . &&\
