@@ -56,5 +56,6 @@ func newLevelFromString(level string) (slog.Level, error) {
 	case "error":
 		return slog.LevelError, nil
 	}
+
 	return slog.Level(0), fmt.Errorf("unknown level: %q", level)
 }
